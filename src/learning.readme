@@ -1,0 +1,14 @@
+Tools. A tool is an action the model can call. “Create a table with these rows and columns” fits. The server offers the tool; the assistant decides to call it. Excel in that sentence is the thing being acted on, not the assistant.
+
+Resources. A resource is data the server already has and the client can read, addressed by a URI. The spreadsheet’s existing rows and columns fit. Your users://all resource is the same idea: the user list, not an action that changes it.
+
+Prompts. A prompt is a reusable message template, often with arguments. Your generate-fake-user prompt is one: it fills in a name and hands the client a ready-made instruction. “Predefined capabilities” is a different MCP idea. Capabilities are what the client and server advertise they support, such as tools, resources, prompts, and sampling.
+
+Sampling. The server asks the client’s model to generate text. Your create-random-user tool does that with createMessage: the server does not call a model itself; it asks the client to.
+
+A compact version of the map:
+
+Tool: do something
+Resource: read something that already exists
+Prompt: start from a saved instruction
+Sampling: server asks the client’s model to write something

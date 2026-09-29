@@ -26,5 +26,40 @@
         "email": "jrajni@gmail.com",
         "address": "jrajni@gmail.com",
         "phone": "9999999999"
+    },
+    {
+        "id": 5,
+        "name": "Test User",
+        "email": "test.user@example.com",
+        "address": "123 Sample Street, Springfield",
+        "phone": "+1-555-0100"
+    },
+    {
+        "id": 6,
+        "name": "chatbot",
+        "email": "chatbot@gmail.com",
+        "address": "chatcloud",
+        "phone": "9999999999"
+    },
+    {
+        "id": 7,
+        "name": "Charlotte Bot",
+        "email": "charlotte.bot@outlook.com",
+        "address": "742 Evergreen Terrace, Springfield, IL 62704",
+        "phone": "(217) 555-0184"
+    },
+    {
+        "id": 8,
+        "name": "Charlotte Bot",
+        "email": "charlotte.bot@outlook.com",
+        "address": "742 Evergreen Terrace, Springfield, IL 62704",
+        "phone": "(217) 555-0184"
+    },
+    {
+        "id": 9,
+        "name": "Jordan Avery",
+        "email": "jordan.avery@example.com",
+        "address": "123 Example Way, Anytown, ZZ 00000",
+        "phone": "+1-202-555-0147"
     }
 ]
