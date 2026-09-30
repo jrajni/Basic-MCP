@@ -4,7 +4,11 @@
 // Sampling[server ask from client]
 // CHECK learning.readme for more details
 
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/server";
+import {
+  McpServer,
+  ResourceTemplate,
+  UriTemplate,
+} from "@modelcontextprotocol/server";
 import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
 import { z } from "zod";
 import * as fs from "node:fs/promises";

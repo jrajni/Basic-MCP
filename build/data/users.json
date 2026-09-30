@@ -61,5 +61,26 @@
         "email": "jordan.avery@example.com",
         "address": "123 Example Way, Anytown, ZZ 00000",
         "phone": "+1-202-555-0147"
+    },
+    {
+        "id": 10,
+        "name": "Client",
+        "email": "client@gmail.com",
+        "address": "client3232",
+        "phone": "3232323232"
+    },
+    {
+        "id": 11,
+        "name": "queryTest",
+        "email": "some@gmail.com",
+        "address": "dndewnwe",
+        "phone": "8888888888"
+    },
+    {
+        "id": 12,
+        "name": "dwed",
+        "email": "dew@gmail.com",
+        "address": "wefew",
+        "phone": "999999999"
     }
 ]

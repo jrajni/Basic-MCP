@@ -1,47 +1,13 @@
-"use strict";
-// Tool [Ask Excel (assistant) to create a table with rows and columns]
+// Tool [Ask Excel (assistant) to create a table with rows and columns]-->Action
 // Resources [Excel having Rows and Columns]
 // Prompt [Predefined capabilities]
 // Sampling[server ask from client]
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = require("@modelcontextprotocol/server");
-const stdio_1 = require("@modelcontextprotocol/server/stdio");
-const zod_1 = require("zod");
-const fs = __importStar(require("node:fs/promises"));
-const server = new server_1.McpServer({
+// CHECK learning.readme for more details
+import { McpServer, ResourceTemplate, } from "@modelcontextprotocol/server";
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import { z } from "zod";
+import * as fs from "node:fs/promises";
+const server = new McpServer({
     name: "test",
     version: "1.0",
     // },
@@ -64,11 +30,11 @@ const server = new server_1.McpServer({
 // );
 server.registerTool("create-user", {
     description: "Create a new user in the database",
-    inputSchema: zod_1.z.object({
-        name: zod_1.z.string().describe("The name of the user"),
-        email: zod_1.z.string().email().describe("The email of the user"),
-        address: zod_1.z.string().describe("The address of the user"),
-        phone: zod_1.z.string().describe("The phone number of the user"),
+    inputSchema: z.object({
+        name: z.string().describe("The name of the user"),
+        email: z.string().email().describe("The email of the user"),
+        address: z.string().describe("The address of the user"),
+        phone: z.string().describe("The phone number of the user"),
     }),
 }, async ({ name, email, address, phone, }) => {
     try {
@@ -113,7 +79,7 @@ server.registerResource("users", "users://all", {
         ],
     };
 });
-server.registerResource("user-details", new server_1.ResourceTemplate("users://{userId}/profile", {
+server.registerResource("user-details", new ResourceTemplate("users://{userId}/profile", {
     list: undefined,
 }), {
     description: "Get the details of a user",
@@ -144,8 +110,8 @@ server.registerResource("user-details", new server_1.ResourceTemplate("users://{
 });
 server.registerPrompt("generate-fake-user", {
     description: "Generate a fake user based on the given Name",
-    argsSchema: zod_1.z.object({
-        name: zod_1.z.string().describe("The name of the user"),
+    argsSchema: z.object({
+        name: z.string().describe("The name of the user"),
     }),
 }, async (args) => {
     const { name } = args;
@@ -210,7 +176,7 @@ async function createUser(user) {
     return userId;
 }
 async function main() {
-    const transport = new stdio_1.StdioServerTransport();
+    const transport = new StdioServerTransport();
     await server.connect(transport);
     console.log("Server is running...");
 }
