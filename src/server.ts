@@ -12,6 +12,23 @@ import {
 import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
 import { z } from "zod";
 import * as fs from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+
+const usersPath = fileURLToPath(
+  new URL("../src/data/users.json", import.meta.url),
+);
+
+type StoredUser = {
+  id: number;
+  name: string;
+  email: string;
+  address: string;
+  phone: string;
+};
+
+async function readUsers(): Promise<StoredUser[]> {
+  return JSON.parse(await fs.readFile(usersPath, "utf8"));
+}
 const server = new McpServer({
   name: "test",
   version: "1.0",
@@ -41,7 +58,10 @@ server.registerTool(
     description: "Create a new user in the database",
     inputSchema: z.object({
       name: z.string().describe("The name of the user"),
-      email: z.string().email().describe("The email of the user"),
+      email: z
+        .string()
+        .email()
+        .describe("The email of the user. Must be unique"),
       address: z.string().describe("The address of the user"),
       phone: z.string().describe("The phone number of the user"),
     }),
@@ -92,9 +112,7 @@ server.registerResource(
     title: "Users",
   },
   async () => {
-    const users = await import("../src/data/users.json", {
-      with: { type: "json" },
-    }).then((module) => module.default); // hover over users default will get created with all params
+    const users = await readUsers();
     return {
       contents: [
         {
@@ -118,9 +136,7 @@ server.registerResource(
     title: "User Details",
   },
   async (uri, { userId }) => {
-    const users = await import("../src/data/users.json", {
-      with: { type: "json" },
-    }).then((module) => module.default); // hover over users default will get created with all params
+    const users = await readUsers();
 
     const user = users.find(
       (user: any) => user.id === parseInt(userId as string),
@@ -224,12 +240,14 @@ async function createUser(user: {
   address: string;
   phone: string;
 }) {
-  const users = await import("../src/data/users.json", {
-    with: { type: "json" },
-  }).then((module) => module.default); // hover over users default will get created with all params
-  const userId = users.length + 1;
+  const users = await readUsers();
+  const email = user.email.trim().toLowerCase();
+  if (users.some((existing) => existing.email.trim().toLowerCase() === email)) {
+    throw new Error(`Email ${user.email} is already in use`);
+  }
+  const userId = Math.floor(Math.random() * 1000000);
   users.push({ id: userId, ...user });
-  await fs.writeFile("./src/data/users.json", JSON.stringify(users, null, 2)); //null 2 for proper spacing
+  await fs.writeFile(usersPath, JSON.stringify(users, null, 2));
   return userId;
 }
 
